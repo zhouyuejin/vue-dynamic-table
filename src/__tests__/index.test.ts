@@ -17,11 +17,15 @@ describe('entry exports', () => {
 
 describe('plugin install', () => {
   it('registers <DynamicTable> as a global component without options', () => {
+    const host = document.createElement('div');
+    document.body.appendChild(host);
     const app = createApp(defineComponent({ render: () => h('div') }));
     app.use(DynamicTable);
+    app.mount(host);
     const components = (app as any)._context?.components;
     expect(components?.DynamicTable).toBeDefined();
     app.unmount();
+    host.remove();
   });
 
   it('accepts a hasPermission function in install options', () => {
@@ -30,19 +34,27 @@ describe('plugin install', () => {
       seen.push(code);
       return code !== 'btn_block';
     };
+    const host = document.createElement('div');
+    document.body.appendChild(host);
     const TestConsumer = defineComponent({ render: () => h('div') });
     const app = createApp(TestConsumer);
     app.use(DynamicTable, { hasPermission });
+    app.mount(host);
     expect(hasPermission('btn_a')).toBe(true);
     expect(hasPermission('btn_block')).toBe(false);
     expect(seen).toEqual(['btn_a', 'btn_block']);
     app.unmount();
+    host.remove();
   });
 
   it('still installs cleanly without hasPermission (backward compat)', () => {
+    const host = document.createElement('div');
+    document.body.appendChild(host);
     const app = createApp(defineComponent({ render: () => h('div') }));
     expect(() => app.use(DynamicTable, {})).not.toThrow();
+    app.mount(host);
     app.unmount();
+    host.remove();
   });
 });
 

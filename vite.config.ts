@@ -26,6 +26,9 @@ export default defineConfig({
     rollupOptions: {
       external: ['vue', 'element-plus', '@element-plus/icons-vue', 'dayjs'],
       output: {
+        // 强制把 default export 也按 named 输出，
+        // 这样 import DynamicTable from '@zhouyuejin1995/vue-dynamic-table' 才能直接拿到 plugin 对象
+        exports: 'named',
         globals: {
           vue: 'Vue',
           'element-plus': 'ElementPlus',

@@ -1,0 +1,9 @@
+{
+  "packages": {
+    ".": {
+      "releaseType": "node",
+      "packageName": "@zhouyuejin1995/vue-dynamic-table",
+      "tagFormat": "vue-dynamic-table-v${version}"
+    }
+  }
+}

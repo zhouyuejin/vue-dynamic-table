@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/zhouyuejin/vue-dynamic-table/discussions
+    about: 有问题先来这里讨论，不一定非要开 issue
+  - name: 📖 README
+    url: https://github.com/zhouyuejin/vue-dynamic-table#readme
+    about: 先看 README，绝大多数问题文档里都有

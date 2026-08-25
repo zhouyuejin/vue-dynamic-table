@@ -1,0 +1,92 @@
+name: 🐛 Bug Report
+description: 报告一个 bug，帮助我们复现和修复
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢提交 bug！请尽可能详细地描述问题，并附上复现代码。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+      description: 清晰简洁地描述 bug 是什么
+      placeholder: |
+        例如：搜索表单的「关键字」字段在输入中文时无法触发查询……
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      description: 触发 bug 的最小操作序列
+      placeholder: |
+        1. 调用 `npm run dev` 启动 playground
+        2. 在「关键字」输入框输入「张三」
+        3. 点击「查询」按钮
+        4. 看到表格仍然展示全部数据
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+      description: 你认为应该发生什么
+      validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+      description: 实际发生了什么（包括报错堆栈、截图）
+      validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 版本
+      description: 使用的包版本（package.json 里查）
+      placeholder: "@zhouyuejin1995/vue-dynamic-table@0.1.0"
+      validations:
+        required: true
+
+  - type: dropdown
+    id: vue
+    attributes:
+      label: Vue 版本
+      options:
+        - "Vue 3.5.x"
+        - "Vue 3.4.x"
+        - "Vue 3.3.x"
+        - "其他（请在备注里说明）"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: element
+    attributes:
+      label: Element Plus 版本
+      options:
+        - "2.8.x"
+        - "2.7.x"
+        - "2.6.x"
+        - "其他（请在备注里说明）"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 补充信息
+      description: 浏览器、Node 版本、复现代码片段等
+      placeholder: |
+        ```vue
+        <DynamicTable :columns="columns" :data-request="fetch" />
+        ```

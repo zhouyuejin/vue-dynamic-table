@@ -1,0 +1,111 @@
+/**
+ * DynamicTable 全局样式。
+ *
+ * 命名空间全部在 .dynamic-table-wrapper 下，避免污染外部。
+ * 原项目里用 <style scoped> 是因为组件直接被业务页面引用；
+ * 抽离为独立组件库后样式改为全局加载（通过 import './styles/index.scss'），
+ * 调用方按需在入口处 `import '@zhouyuejin1995/vue-dynamic-table/style.css'` 引入一次即可。
+ */
+
+.dynamic-table-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  /* 嵌入模式：去除装饰性背景/内边距，用于子组件、对话框、StepSection 内部 */
+  &.is-plain {
+    gap: 0;
+
+    .table-container {
+      padding: 0;
+      background: transparent;
+    }
+  }
+
+  .search-container {
+    background: #fff;
+    padding: 16px;
+    border-radius: 4px;
+
+    .el-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+
+      .el-form-item {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .toolbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 12px 16px;
+    border-radius: 4px;
+
+    .toolbar-left {
+      display: flex;
+      gap: 8px;
+
+      .toolbar-inner {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+    }
+
+    .toolbar-right {
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  .table-container {
+    flex: 1;
+    background: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    &.is-fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 9999;
+      padding: 70px 20px 20px 20px;
+      background: #fff;
+
+      .fullscreen-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+      }
+
+      .el-table {
+        height: 100%;
+      }
+    }
+
+    .el-table {
+      flex-shrink: 1;
+      overflow: auto;
+    }
+
+    .pagination-container {
+      display: flex;
+      flex-shrink: 0;
+      padding-top: 16px;
+      background: #fff;
+    }
+  }
+}

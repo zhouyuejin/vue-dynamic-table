@@ -1,0 +1,16 @@
+playground/
+src/__tests__/
+test/
+.vitest/
+coverage/
+*.log
+.DS_Store
+.idea/
+.vscode/
+tsconfig.json
+tsconfig.node.json
+vitest.config.ts
+vite.config.ts
+.github/
+scripts/
+docs/

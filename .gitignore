@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+.vitest/
+coverage/
+.idea/
+.vscode/
+*.local
+playground/dist/

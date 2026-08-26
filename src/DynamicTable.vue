@@ -143,16 +143,16 @@
             v-else-if="column.actions"
             v-bind="getColumnProps(column)"
           >
-            <template #default="{ row, column: col, $index }">
-              <div style="display: flex; gap: 8px">
-                <template v-for="(action, idx) in getActions(row, col, $index, column.actions)" :key="idx">
+            <template #default="scope">
+              <div v-if="scope && scope.row" style="display: flex; gap: 8px">
+                <template v-for="(action, idx) in getActions(scope.row, scope.column, scope.$index, column.actions)" :key="idx">
                   <el-tooltip v-if="action.tooltip" :content="action.tooltip" :placement="action.popConfirm?.placement || 'top'">
                     <el-button
                       :type="action.type || 'default'"
                       :link="action.link !== false"
                       :disabled="action.disabled"
                       size="small"
-                      @click="handleActionClick(action, row, col, $index)"
+                      @click="handleActionClick(action, scope.row, scope.column, scope.$index)"
                     >
                       {{ action.label }}
                     </el-button>
@@ -163,7 +163,7 @@
                     :link="action.link !== false"
                     :disabled="action.disabled"
                     size="small"
-                    @click="handleActionClick(action, row, col, $index)"
+                    @click="handleActionClick(action, scope.row, scope.column, scope.$index)"
                   >
                     {{ action.label }}
                   </el-button>
@@ -177,8 +177,9 @@
             v-else-if="column.render"
             v-bind="getColumnProps(column)"
           >
-            <template #default="{ row, column: col, $index }">
-              <VNodeRenderer :vnode="column.render({ row, column: col, index: $index })" />
+            <template #default="scope">
+              <VNodeRenderer v-if="scope && scope.row" :vnode="column.render({ row: scope.row, column: scope.column, index: scope.$index })" />
+              <template v-else />
             </template>
           </el-table-column>
 
@@ -187,8 +188,9 @@
             v-else-if="column.customRender"
             v-bind="getColumnProps(column)"
           >
-            <template #default="{ row, column: col, $index }">
-              <VNodeRenderer :vnode="column.customRender({ row, column: col, index: $index })" />
+            <template #default="scope">
+              <VNodeRenderer v-if="scope && scope.row" :vnode="column.customRender({ row: scope.row, column: scope.column, index: scope.$index })" />
+              <template v-else />
             </template>
           </el-table-column>
 
@@ -197,8 +199,9 @@
             v-else-if="column.slot"
             v-bind="getColumnProps(column)"
           >
-            <template #default="{ row, column: col, $index }">
-              <slot :name="column.slot" :row="row" :column="col" :index="$index" />
+            <template #default="scope">
+              <slot v-if="scope && scope.row" :name="column.slot" :row="scope.row" :column="scope.column" :index="scope.$index" />
+              <template v-else />
             </template>
           </el-table-column>
 
@@ -207,9 +210,9 @@
             v-else-if="column.tag"
             v-bind="getColumnProps(column)"
           >
-            <template #default="{ row }">
-              <el-tag v-if="column.prop" :type="getTagType(row[column.prop], column.tagMap)">
-                {{ getTagText(row[column.prop], column.tagMap) }}
+            <template #default="scope">
+              <el-tag v-if="scope && scope.row && column.prop" :type="getTagType(scope.row[column.prop], column.tagMap)">
+                {{ getTagText(scope.row[column.prop], column.tagMap) }}
               </el-tag>
             </template>
           </el-table-column>
@@ -219,11 +222,11 @@
             v-else-if="column.image"
             v-bind="getColumnProps(column)"
           >
-            <template #default="{ row }">
+            <template #default="scope">
               <el-image
-                v-if="column.prop"
-                :src="row[column.prop]"
-                :preview-src-list="[row[column.prop]]"
+                v-if="scope && scope.row && column.prop"
+                :src="scope.row[column.prop]"
+                :preview-src-list="[scope.row[column.prop]]"
                 fit="cover"
                 style="width: 60px; height: 60px"
               />
@@ -235,8 +238,8 @@
             v-else
             v-bind="getColumnProps(column)"
           >
-            <template #default="{ row }">
-              {{ formatCellValue(row, column) }}
+            <template #default="scope">
+              <template v-if="scope && scope.row">{{ formatCellValue(scope.row, column) }}</template>
             </template>
           </el-table-column>
         </template>

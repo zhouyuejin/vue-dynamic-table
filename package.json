@@ -1,6 +1,6 @@
 {
   "name": "@zhouyuejin1995/vue-dynamic-table",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Schema-driven dynamic table for Vue 3 + Element Plus: search form, columns, toolbar, pagination, row selection, fullscreen — all configurable via JSON.",
   "type": "module",
   "license": "MIT",

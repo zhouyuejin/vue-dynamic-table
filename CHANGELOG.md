@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > 从 v0.5.0 起改用 [release-please](https://github.com/googleapis/release-please) 自动生成 CHANGELOG；此前版本由维护者手写。
 
+## [0.1.5](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.5) (2026-08-26)
+
+
+### Bug Fixes
+
+* **CSS 自动注入**：用 Vite `?inline` 把 `styles/index.scss` 编译产物当字符串内联进 JS，模块加载时检测 `<style id="zhouyuejin1995-vue-dynamic-table-styles">` 是否已注入，没有则 append 到 `document.head`。消费方无需再手动 `import '@zhouyuejin1995/vue-dynamic-table/style.css'`，样式自动跟随组件（修：分页不靠右、与表格没间距的问题）
+
 ## [0.1.4](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.4) (2026-08-26)
 
 

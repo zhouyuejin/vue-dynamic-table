@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > 从 v0.5.0 起改用 [release-please](https://github.com/googleapis/release-please) 自动生成 CHANGELOG；此前版本由维护者手写。
 
+## [0.1.1](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.1) (2026-08-26)
+
+
+### Bug Fixes
+
+* **handleActionClick / handleToolbarClick**: 包裹外部回调（`onClick` / `popConfirm.onConfirm` / `toolbar.onClick`）增加 try/catch，避免用户在回调里抛错（包括 `({ row })` 解构 undefined 等）变成 `Uncaught (in promise)`；同时把原来静默吞错的 `.catch(() => {})` 改成 `console.error`，方便排查
+
 ## [0.1.0](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.0) (2026-08-25)
 
 

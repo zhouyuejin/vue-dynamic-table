@@ -536,6 +536,15 @@ const getActions = (row: any, col: any, index: number, actionsFn?: DynamicTableC
 
 // 处理操作按钮点击
 const handleActionClick = async (action: any, row: any, col: any, index: number) => {
+  // 兜底：把外部回调的异常统一捕获，避免变成 Uncaught (in promise)
+  // （Vue 的 @click 不 await async handler，async 函数 reject 就成了 unhandled rejection）
+  const safeCall = async (fn: (...args: any[]) => any, args: any[], label: string) => {
+    try {
+      await fn(...args);
+    } catch (err) {
+      console.error(`[DynamicTable] ${label} 回调执行失败:`, err);
+    }
+  };
   const params = { row, column: col, index };
 
   // popConfirm 配置（旧版写法，保持兼容）
@@ -547,7 +556,7 @@ const handleActionClick = async (action: any, row: any, col: any, index: number)
       cancelButtonText: '取消'
     })
       .then(async () => {
-        if (onConfirm) await onConfirm(params);
+        if (onConfirm) await safeCall(onConfirm, [params], 'popConfirm.onConfirm');
       })
       .catch(() => {});
     return;
@@ -562,14 +571,14 @@ const handleActionClick = async (action: any, row: any, col: any, index: number)
       cancelButtonText: opts.cancelButtonText || '取消'
     })
       .then(async () => {
-        if (action.onClick) await action.onClick(params);
+        if (action.onClick) await safeCall(action.onClick, [params], 'onClick');
       })
       .catch(() => {});
     return;
   }
 
   // 无确认配置，直接执行 onClick
-  if (action.onClick) await action.onClick(params);
+  if (action.onClick) await safeCall(action.onClick, [params], 'onClick');
 };
 
 // ==================== 工具栏 schema 处理 ====================
@@ -618,6 +627,14 @@ const visibleSearchFields = computed(() => {
  * @param action - 工具栏按钮配置
  */
 const handleToolbarClick = async (action: ToolbarAction) => {
+  // 兜底：把外部回调的异常统一捕获，避免变成 Uncaught (in promise)
+  const safeCall = async (fn: (...args: any[]) => any, args: any[], label: string) => {
+    try {
+      await fn(...args);
+    } catch (err) {
+      console.error(`[DynamicTable] ${label} 回调执行失败:`, err);
+    }
+  };
   const selection = selectedRows.value;
 
   // confirm 二次弹窗确认：先弹窗，确认后再执行 onClick
@@ -629,14 +646,14 @@ const handleToolbarClick = async (action: ToolbarAction) => {
       cancelButtonText: opts.cancelButtonText || '取消'
     })
       .then(async () => {
-        if (action.onClick) await action.onClick(selection);
+        if (action.onClick) await safeCall(action.onClick, [selection], 'toolbar.onClick');
       })
       .catch(() => {});
     return;
   }
 
   // 无确认配置，直接执行 onClick
-  if (action.onClick) await action.onClick(selection);
+  if (action.onClick) await safeCall(action.onClick, [selection], 'toolbar.onClick');
 };
 
 const buildRequestParams = () => {
@@ -806,3 +823,107 @@ defineExpose({
 });
 </script>
 
+<style lang="scss" scoped>
+.dynamic-table-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  /* 嵌入模式：去除装饰性背景/内边距，用于子组件、对话框、StepSection 内部 */
+  &.is-plain {
+    gap: 0;
+
+    .table-container {
+      padding: 0;
+      background: transparent;
+    }
+  }
+
+  .search-container {
+    background: #fff;
+    padding: 16px;
+    border-radius: 4px;
+
+    .el-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+
+      :deep(.el-form-item) {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .toolbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 12px 16px;
+    border-radius: 4px;
+
+    .toolbar-left {
+      display: flex;
+      gap: 8px;
+
+      .toolbar-inner {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+    }
+
+    .toolbar-right {
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  .table-container {
+    flex: 1;
+    background: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    &.is-fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 9999;
+      padding: 70px 20px 20px 20px;
+      background: #fff;
+
+      .fullscreen-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+      }
+
+      .el-table {
+        height: 100%;
+      }
+    }
+
+    .el-table {
+      flex-shrink: 1;
+      overflow: auto;
+    }
+
+    .pagination-container {
+      display: flex;
+      flex-shrink: 0;
+      padding-top: 16px;
+      background: #fff;
+    }
+  }
+}
+</style>

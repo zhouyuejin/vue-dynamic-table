@@ -33,7 +33,7 @@ npm run prepublishOnly        # clean + lint + test + build
 npm pack --dry-run            # 看 tarball 里都有啥
 ```
 
-期望看到：`dist/index.d.ts` / `dist/vue-dynamic-table.es.js` / `dist/vue-dynamic-table.umd.js` / `dist/style.css` / `README.md` / `LICENSE`。
+期望看到：`dist/index.d.ts` / `dist/vue-dynamic-table.es.js` / `dist/vue-dynamic-table.umd.js` / `dist/vue-dynamic-table.css` / `README.md` / `LICENSE`。
 不应看到：`src/` / `playground/` / `node_modules/` / `.github/`。
 
 ### 2. 确认 registry + 包名可用

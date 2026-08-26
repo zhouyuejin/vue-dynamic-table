@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > 从 v0.5.0 起改用 [release-please](https://github.com/googleapis/release-please) 自动生成 CHANGELOG；此前版本由维护者手写。
 
+## [0.1.4](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.4) (2026-08-26)
+
+
+### Bug Fixes
+
+* **element-plus 显式 import**：库模板里用到的 14 个 Element Plus 组件（ElInput / ElButton / ElTable / ElTableColumn / ElForm / ElFormItem / ElSelect / ElOption / ElDatePicker / ElImage / ElTag / ElTooltip / ElEmpty / ElPagination）改为 `<script setup>` 里显式 `import { ... } from 'element-plus'`，不再依赖消费方的 auto-import。修复 "Failed to resolve component: el-input"（消费方常用 unplugin-vue-components 自动注册 Element Plus，但它默认不扫 node_modules）
+
+## [0.1.3](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.3) (2026-08-26)
+
+
+### Bug Fixes
+
+* **slot factory**: 把所有 `<template #default="{ row, ... }">` 改成 `<template #default="scope">` + `scope && scope.row` 守卫。
+** 之前：el-table-column 在某些边界场景（如 `inheritAttrs: false` + `v-bind="$attrs"` 组合、keepAlive 切回、列 type 切换）会用 `undefined` scope 调用 slot factory，参数解构 `({ row })` 会 throw，被 Vue 调度器的 Promise.then 包成 "Uncaught (in promise) TypeError: Cannot destructure property 'row' of 'undefined'"。新版用 `r && r.row` 守卫，el-table 传 undefined 时降级渲染空片段，不再炸 promise
+* **handleActionClick / handleToolbarClick**: 包裹外部回调 try/catch（前次修复保留）
+
 ## [0.1.2](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.2) (2026-08-26)
 
 

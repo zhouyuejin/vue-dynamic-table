@@ -269,7 +269,33 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onActivated, watch, h, defineComponent, inject } from 'vue';
 import { Refresh, FullScreen, Close } from '@element-plus/icons-vue';
-import { ElMessageBox } from 'element-plus';
+import {
+  ElButton,
+  ElDatePicker,
+  ElEmpty,
+  ElForm,
+  ElFormItem,
+  ElImage,
+  ElInput,
+  ElMessageBox,
+  ElOption,
+  ElPagination,
+  ElSelect,
+  ElTable,
+  ElTableColumn,
+  ElTag,
+  ElTooltip
+} from 'element-plus';
+
+/**
+ * 显式 import 本组件模板里用到的 Element Plus 组件。
+ * 原因：消费方常用 unplugin-vue-components 自动注册 Element Plus 组件，
+ *       但 unplugin-vue-components 默认只扫描项目源码（不扫 node_modules），
+ *       于是本组件模板里的 <el-input> <el-table> 等会报 "Failed to resolve component"。
+ *       在 <script setup> 里 import 后，模板里直接可用，消费方无需任何额外配置。
+ * （Element Plus 的组件都通过 name 选项在组件实例上正确命名，
+ *   Vue 模板解析时会忽略大小写差异，<el-input> 和 <ElInput> 等价。）
+ */
 import { DYNAMIC_TABLE_HAS_PERMISSION, type HasPermission } from './types';
 import type { DynamicTableColumn, SearchField, Pagination, ToolbarAction } from './types';
 

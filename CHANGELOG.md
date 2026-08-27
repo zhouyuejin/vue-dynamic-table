@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > 从 v0.1.4 起改用 [release-please](https://github.com/googleapis/release-please) 自动生成 CHANGELOG；此前版本由维护者手写。
 
+## [0.1.6](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.6) (2026-08-26)
+
+
+### Documentation
+
+* **PUBLISH.md / CHANGELOG 文档修正**（手动 tag 跳过 release-please 后补）
+  * `PUBLISH.md`：dry-run / 期望产物示例里 `dist/style.css` → `dist/vue-dynamic-table.css`，与 `package.json` `exports` 实际文件名对齐（v0.1.2 已修文件名，但发布指南未同步）
+  * `CHANGELOG.md`：底部说明从 "从 v0.5.0 起改用 release-please" → "从 v0.1.4 起"（项目实际 0.1.x；首个 release-please 风格条目是 v0.1.4）
+
 ## [0.1.5](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.5) (2026-08-26)
 
 

@@ -31,6 +31,8 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     environment: publish_token
+    permissions:
+      contents: write
     if: |
       startsWith(github.ref, 'refs/tags/v') ||
       startsWith(github.ref, 'refs/tags/vue-dynamic-table-v') ||
@@ -48,3 +50,23 @@ jobs:
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Extract CHANGELOG entry for ${{ github.ref_name }}
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          VERSION="${GITHUB_REF_NAME#vue-dynamic-table-v}"
+          awk -v v="$VERSION" '
+            BEGIN { p = 0 }
+            /^## \[/ {
+              if (index($0, "[" v "]")) p = 1
+              else if (p) exit
+            }
+            p
+          ' CHANGELOG.md > release_body.md
+          if [ ! -s release_body.md ]; then
+            echo "::warning::No CHANGELOG entry for $VERSION, release body will be empty"
+          fi
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: release_body.md

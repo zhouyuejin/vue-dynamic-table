@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > 从 v0.1.4 起改用 [release-please](https://github.com/googleapis/release-please) 自动生成 CHANGELOG；此前版本由维护者手写。
 
+## [0.1.7](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.7) (2026-08-27)
+
+
+### Documentation
+
+* **changelog**：补 0.1.6 段（手动 tag 跳过 release-please 后补）
+
+### Continuous Integration
+
+* **publish workflow 自动建 GitHub Release**：npm publish 成功后自动从 `CHANGELOG.md` 抽取对应版本段建 GH Release，body 跟 CHANGELOG 内容一致（无需依赖 commit subjects 自动生成）
+* **publish workflow**：加 `environment: publish_token`，token 从 Environment secret 拿；新增 `workflow_dispatch` 入口
+* **release-please workflow**：从 `secrets.RELEASE_PLEASE_TOKEN` PAT 改为 `secrets.GITHUB_TOKEN`，少一个 secret、少一个轮换、少一个泄露面；`PUBLISH.md` 同步更新
+* **publish workflow**：`npm ci` → `npm ci --include=optional`，防御 optional native deps（如 rollup binding）在 Linux CI runner 上缺失
+
 ## [0.1.6](https://github.com/zhouyuejin/vue-dynamic-table/releases/tag/vue-dynamic-table-v0.1.6) (2026-08-26)
 
 

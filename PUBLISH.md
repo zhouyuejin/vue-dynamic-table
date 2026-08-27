@@ -21,7 +21,6 @@
 | Secret | 用途 | 怎么拿 |
 |---|---|---|
 | `NPM_TOKEN` | publish workflow 发布到 npm 用 | `npm login` 后跑 `npm token create` 复制 token |
-| `RELEASE_PLEASE_TOKEN` | release-please 自动开 release PR 用 | GitHub → Settings → Developer settings → Personal access tokens (classic)，勾 `repo` 权限 |
 
 ## 首次发布
 
@@ -100,7 +99,7 @@ npm profile get username
 
 ### release-please 不开 PR
 
-`RELEASE_PLEASE_TOKEN` 没配置或已过期。去 GitHub PAT 页面看 token 是否还有效、scope 是否包含 `repo`。
+release-please 默认用 `secrets.GITHUB_TOKEN`，依赖 `permissions` 块给的 `contents: write` / `pull-requests: write`。如果不开 PR，多半是 workflow 没拿到写权限——检查 `.github/workflows/release-please.yml` 顶部的 `permissions:` 段是否还在。
 
 ### Actions publish 失败
 
